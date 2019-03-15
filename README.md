@@ -1,2 +1,4 @@
 # automating-aws-with-python
-lab for aws automation w/ python (duh)
+
+
+lab for A Cloud Guru course *automation w/ python* (duh)
