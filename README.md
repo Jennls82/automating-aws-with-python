@@ -16,3 +16,4 @@ Current feautures:
 - List the objects in a bucket
 - Create and set up a bucket
 - Sync directory tree to a buckets
+- Set AWS profile with --profile=<profile_name>
