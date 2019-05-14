@@ -14,22 +14,25 @@ import boto3
 import click
 
 from bucket import BucketManager
+from domain import DomainManager
 
 session = None
 bucket_manager = None
+domain_manager = None
 
 
 @click.group()
 @click.option('--profile', default=None, help="Use a given AWS profile")
 def cli(profile):
     """Webotron deploys websites to aws."""
-    global session, bucket_manager
+    global session, bucket_manager, domain_manager
     session_cfg = {}
     if profile:
         session_cfg['profile_name'] = profile
 
     session = boto3.Session(**session_cfg)
     bucket_manager = BucketManager(session)
+    domain_manager = DomainManager(session)
 
 
 @cli.command('list-buckets')
@@ -66,6 +69,15 @@ def sync(pathname, bucket):
     bucket_manager.sync(pathname, bucket)
     print(bucket_manager.get_bucket_url(bucket_manager.s3.Bucket(bucket)))
 
+
+@cli.command('setup-domain')
+@click.argument('domain')
+@click.argument('bucket')
+def setup_domain(domain, bucket):
+    """Configure domain to point to bucket."""
+    zone = domain_manager.find_hosted_zone(domain) \
+        or domain_manager.create_hosted_zone(doma)
+    print(zone)
 
 if __name__ == '__main__':
     cli()
