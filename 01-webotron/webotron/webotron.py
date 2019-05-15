@@ -12,6 +12,7 @@ Webotron automates the process of deploying static websites to AWS
 """
 import boto3
 import click
+import util
 
 from bucket import BucketManager
 from domain import DomainManager
@@ -72,12 +73,19 @@ def sync(pathname, bucket):
 
 @cli.command('setup-domain')
 @click.argument('domain')
-@click.argument('bucket')
-def setup_domain(domain, bucket):
+def setup_domain(domain):
     """Configure domain to point to bucket."""
+    bucket = bucket_manager.get_bucket(domain)
+
     zone = domain_manager.find_hosted_zone(domain) \
-        or domain_manager.create_hosted_zone(doma)
-    print(zone)
+        or domain_manager.create_hosted_zone(domain)
+
+    endpoint = util.get_endpoint(bucket_manager.get_region_name(bucket))
+    a_record = domain_manager.create_s3_domain_record(zone, domain, endpoint)
+
+    print("Domain configured: http://{}".format(domain))
+    print(a_record)
+
 
 if __name__ == '__main__':
     cli()

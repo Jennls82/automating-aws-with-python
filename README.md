@@ -17,3 +17,4 @@ Current feautures:
 - Create and set up a bucket
 - Sync directory tree to a buckets
 - Set AWS profile with --profile=<profile_name>
+- Configure Route53 domain  

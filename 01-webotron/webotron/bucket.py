@@ -132,7 +132,8 @@ class BucketManager:
             elif len(hashes) == 1:
                 return '"{}"'.format(hashes[0].hexdigest())
             else:
-                hash = self.hash_data(reduce(lambda x, y: x + y, (h.digest() for h in hashes)))
+                digests = (h.digest() for h in hashes)
+                hash = self.hash_data(reduce(lambda x, y: x + y, digests))
                 return '"{}-{}"'.format(hash.hexdigest(), len(hashes))
 
 
