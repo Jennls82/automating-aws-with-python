@@ -1,6 +1,6 @@
 #! -*- coding: utf-8 -*-
 """Classes for s3 buckets."""
-import util
+from webotron import util
 import mimetypes
 from pathlib import Path
 from hashlib import md5
